@@ -28,7 +28,14 @@ public class Calculator {
                                 result -= stack.pop();
                                 break;
                             case "/":
-                                result /= stack.pop();
+                                double temp = stack.pop();
+                                if (temp != 0) {
+                                    result /= temp;
+                                }
+                                else {
+                                    throw new ArithmeticException("/ by zero");
+                                }
+
                                 break;
                             case "*":
                                 result *= stack.pop();
