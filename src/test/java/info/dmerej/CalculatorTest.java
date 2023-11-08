@@ -3,6 +3,8 @@ package info.dmerej;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,18 +17,14 @@ public class CalculatorTest {
 
     }
 
-    @Test
-    void given_2_int_1_plus_when_execute_then_should_return_addition() {
-        //Given
-        final String value = "12 3 +";
-
-        //When
-        final Integer result = calculator.RPNEvaluation(value);
-
-        //Then
-        assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(15);
+    @ParameterizedTest
+    @CsvFileSource(resources = "/test_values.csv", numLinesToSkip = 1)
+    void given_source_value_when_RPNEvaluation_return_good_result(String input, int expected) {
+        assertThat(
+                calculator.RPNEvaluation(input)
+        ).isEqualTo(expected);
     }
+
 
     @Disabled("Error not handle")
     @Test
@@ -85,45 +83,6 @@ public class CalculatorTest {
 
         //then
         assertThat(result).isFalse();
-    }
-
-    @Test
-    void given_2_int_1_minus_when_execute_then_should_return_subtraction() {
-        //Given
-        final String value = "12 3 -";
-
-        //When
-        final Integer result = calculator.RPNEvaluation(value);
-
-        //Then
-        assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(9);
-    }
-
-    @Test
-    void given_3_int_1_minus_1_plus_when_execute_then_should_return_result() {
-        //Given
-        final String value = "12 3 - 4 +";
-
-        //When
-        final Integer result = calculator.RPNEvaluation(value);
-
-        //Then
-        assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(13);
-    }
-
-    @Test
-    void given_3_int_2_plus_when_execute_then_should_return_result() {
-        //Given
-        final String value = "12 3 + 4 +";
-
-        //When
-        final Integer result = calculator.RPNEvaluation(value);
-
-        //Then
-        assertThat(result).isNotNull();
-        assertThat(result).isEqualTo(19);
     }
 }
 
