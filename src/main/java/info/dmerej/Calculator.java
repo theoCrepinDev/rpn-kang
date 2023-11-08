@@ -14,8 +14,7 @@ public class Calculator {
         for (String token : tokens) {
             if (isInteger(token)) {
                 stack.push(Integer.parseInt(token));
-            }
-            else {
+            } else {
                 while (!stack.empty()) {
                     result += stack.pop();
                 }
@@ -24,13 +23,12 @@ public class Calculator {
 
         return result;
     }
-
+ 
     public boolean isInteger(String string) {
         try {
             Integer.parseInt(string);
             return true;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
         }
     }

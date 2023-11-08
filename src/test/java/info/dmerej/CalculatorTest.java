@@ -4,10 +4,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class CalculatorTest {
 
@@ -24,7 +20,7 @@ public class CalculatorTest {
         final String value = "12 3 +";
 
         //When
-        final Integer result = calculator.execute(value);
+        final Integer result = calculator.RPNEvaluation(value);
 
         //Then
         assertThat(result).isNotNull();
@@ -37,7 +33,7 @@ public class CalculatorTest {
         final String value = "1.3 5.5 +";
 
         //When
-        final Integer result = calculator.execute(value);
+        final Integer result = calculator.RPNEvaluation(value);
 
         //then
         assertThat(result).isNull();
@@ -49,7 +45,7 @@ public class CalculatorTest {
         final String value = "5 +";
 
         //When
-        final Integer result = calculator.execute(value);
+        final Integer result = calculator.RPNEvaluation(value);
 
         //then
         assertThat(result).isNull();
@@ -61,9 +57,30 @@ public class CalculatorTest {
         final String value = "1 + 3";
 
         //When
-        final Integer result = calculator.execute(value);
+        final Integer result = calculator.RPNEvaluation(value);
 
         //then
         assertThat(result).isNull();
     }
+
+    @Test
+    void given_int_as_string_when_isInteger_then_return_true() {
+        String value = "1";
+
+        final Boolean result = calculator.isInteger(value);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    void given_not_int_as_string_when_isInteger_then_return_false() {
+        String value = "h";
+
+        final Boolean result = calculator.isInteger(value);
+
+        //then
+        assertThat(result).isFalse();
+    }
 }
+
