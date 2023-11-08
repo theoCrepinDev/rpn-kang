@@ -124,5 +124,35 @@ public class CalculatorTest {
         //then
         assertThat(result).isFalse();
     }
+
+    @Test
+    void given_double_as_string_when_isDouble_then_return_true() {
+        String value = "1.4";
+
+        final Boolean result = calculator.isDouble(value);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    void given_not_double_as_string_when_isDouble_then_return_false() {
+        String value = "h";
+
+        final Boolean result = calculator.isDouble(value);
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    void given_int_as_string_when_isDouble_then_return_true() {
+        String value = "1";
+
+        final Boolean result = calculator.isDouble(value);
+
+        //then
+        assertThat(result).isTrue();
+    }
 }
 
