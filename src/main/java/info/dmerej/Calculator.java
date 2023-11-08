@@ -1,19 +1,37 @@
 package info.dmerej;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Stack;
 
 public class Calculator {
+    // private static final String operators = "+-/*";
 
-    public Integer execute(final String values){
-        List<String> tokens = Arrays.asList(values.split(" "));
-        System.out.println("Tokens to computes : " + tokens);
+    public int RPNEvaluation(String expression) {
+        String[] tokens = expression.split(" ");
+        Stack<Integer> stack = new Stack<Integer>();
 
-        int a = Integer.valueOf(tokens.get(0));
-        int b = Integer.valueOf(tokens.get(1));
-        if("+".equals(tokens.get(2))) {
-            return  a+b;
+        int result = 0;
+
+        for (String token : tokens) {
+            if (isInteger(token)) {
+                stack.push(Integer.parseInt(token));
+            }
+            else {
+                while (!stack.empty()) {
+                    result += stack.pop();
+                }
+            }
         }
-        return 0;
+
+        return result;
+    }
+
+    public boolean isInteger(String string) {
+        try {
+            Integer.parseInt(string);
+            return true;
+        }
+        catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
