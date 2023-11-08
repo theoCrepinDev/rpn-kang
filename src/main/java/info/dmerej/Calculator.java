@@ -1,7 +1,5 @@
 package info.dmerej;
 
-import com.sun.jdi.InvalidTypeException;
-
 import java.util.Stack;
 
 public class Calculator {
@@ -18,8 +16,7 @@ public class Calculator {
         for (int i = 1; i < tokens.length; i++) {
             if (isInteger(tokens[i])) {
                 stack.push(Integer.parseInt(tokens[i]));
-            }
-            else {
+            } else {
                 if (operators.contains(tokens[i])) {
                     while (!stack.empty()) {
                         switch (tokens[i]) {
@@ -72,8 +69,8 @@ public class Calculator {
         }
         // Vérifier que tout le reste de la liste suit le modèle [int, operator]
         else {
-            for (int i=3; i < tokens.length; i+=2) {
-                if (!isInteger(tokens[i]) || !operators.contains(tokens[i+1])) {
+            for (int i = 3; i < tokens.length; i += 2) {
+                if (!isInteger(tokens[i]) || !operators.contains(tokens[i + 1])) {
                     throw new ArithmeticException("Expecting (integer, operator) pattern");
                 }
             }

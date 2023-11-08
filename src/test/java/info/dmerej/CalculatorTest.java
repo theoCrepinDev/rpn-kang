@@ -7,6 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CalculatorTest {
 
@@ -28,7 +30,7 @@ public class CalculatorTest {
 
     @Disabled("Error not handle")
     @Test
-    void given_2_floating_numbers_when_execute_then_null() {
+    void given_2_floating_numbers_when_RPNEvaluation_then_null() {
         //given
         final String value = "1.3 5.5 +";
 
@@ -39,31 +41,52 @@ public class CalculatorTest {
         assertThat(result).isNull();
     }
 
-    @Disabled("Error not handle")
     @Test
-    void given_1_int_numbers_when_execute_then_null() {
-        //given
-        final String value = "5 +";
-
-        //When
-        final Integer result = calculator.RPNEvaluation(value);
-
-        //then
-        assertThat(result).isNull();
-    }
-
-    @Disabled("Error not handle")
-    @Test
-    void given_2_int_numbers_1_operator_in_middle_when_execute_then_null() {
+    void given_2_int_numbers_1_operator_in_middle_when_verifyExpression_then_should_throw() {
         //given
         final String value = "1 + 3";
 
-        //When
-        final Integer result = calculator.RPNEvaluation(value);
+        Exception exception = assertThrows(ArithmeticException.class, () -> calculator.verifyExpression(value));
 
-        //then
-        assertThat(result).isNull();
+        assertThat(exception.getMessage()).isEqualTo("Expecting two integers arguments");
     }
+
+    @Test
+    void given_3_int_numbers_0_operator_when_verifyExpression_then_should_throw() {
+        //given
+        final String value = "1 1 3";
+
+        Exception exception = assertThrows(ArithmeticException.class, () -> calculator.verifyExpression(value));
+
+        assertThat(exception.getMessage()).isEqualTo("Expecting an operator as the 3rd argument");
+    }
+
+    @Test
+    void given_bad_model_operator_when_verifyExpression_then_should_throw() {
+        //given
+        final String value = "1 3 + 6 - 5 5 +";
+
+        Exception exception = assertThrows(ArithmeticException.class, () -> calculator.verifyExpression(value));
+
+        assertThat(exception.getMessage()).isEqualTo("Expecting (integer, operator) pattern");
+    }
+
+    @Test
+    void given_good_model_operator_when_verifyExpression_then_should_not_throw() {
+        //given
+        final String value = "1 3 + 6 - 5 / 5 +";
+
+        assertDoesNotThrow(() -> calculator.verifyExpression(value));
+    }
+
+
+    @Test
+    void given_two_int_no_operand_when_verifyExpression_then_should_throw_exception() {
+        final String value = "1 3";
+
+        assertThrows(NumberFormatException.class, () -> calculator.verifyExpression(value));
+    }
+
 
     @Test
     void given_int_as_string_when_isInteger_then_return_true() {
