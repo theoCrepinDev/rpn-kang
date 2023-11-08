@@ -21,7 +21,7 @@ public class CalculatorTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/test_values.csv", numLinesToSkip = 1)
-    void given_source_value_when_RPNEvaluation_return_good_result(String input, int expected) {
+    void given_source_value_when_RPNEvaluation_return_good_result(String input, double expected) {
         assertThat(
                 calculator.RPNEvaluation(input)
         ).isEqualTo(expected);
@@ -35,7 +35,7 @@ public class CalculatorTest {
         final String value = "1.3 5.5 +";
 
         //When
-        final Integer result = calculator.RPNEvaluation(value);
+        final Double result = calculator.RPNEvaluation(value);
 
         //then
         assertThat(result).isNull();
@@ -46,7 +46,8 @@ public class CalculatorTest {
         //given
         final String value = "1 + 3";
 
-        Exception exception = assertThrows(ArithmeticException.class, () -> calculator.verifyExpression(value));
+        //When
+        final Double result = calculator.RPNEvaluation(value);
 
         assertThat(exception.getMessage()).isEqualTo("Expecting two integers arguments");
     }
@@ -56,7 +57,8 @@ public class CalculatorTest {
         //given
         final String value = "1 1 3";
 
-        Exception exception = assertThrows(ArithmeticException.class, () -> calculator.verifyExpression(value));
+        //When
+        final Double result = calculator.RPNEvaluation(value);
 
         assertThat(exception.getMessage()).isEqualTo("Expecting an operator as the 3rd argument");
     }
